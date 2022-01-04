@@ -21,11 +21,12 @@ format_capitalone <- function(text_input){
     # In case it is the end/beginning of the year
     if((input.string$Date %>% min() %>% month()  == 1) &
        (input.string$Date %>% max() %>% month()  > 2) ){
-      (
-        input.string[input.string$Date %>% month() == 1, ]$Date
-      ) <- (
-        input.string[input.string$Date %>% month() == 1, ]$Date + years(1)
-      )
+      input.string[
+        input.string$Date %>% month() == 1, 
+      ]$Date <- input.string[
+        input.string$Date %>% month() == 1, 
+      ]$Date + years(1)
+
     }
     
     input.string %>%
