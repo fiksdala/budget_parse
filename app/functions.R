@@ -20,13 +20,13 @@ format_capitalone <- function(text_input){
       `colnames<-`(c('Date', 'Description', 'Category', 'Card', 'Amount')) %>% 
       as_tibble() -> input.string
     
+
     if (input.string$Date[1] != 'Pending'){
       input.string %>%
         mutate(
           Date = parse_date_time(Date, "m d") %>% as_date()
         ) -> input.string
       
-      # In case it is the end/beginning of the year
       # In case it is the end/beginning of the year
       if((input.string$Date %>% min() %>% month()  == 1) &
          (input.string$Date %>% max() %>% month()  > 2) ){
