@@ -20,13 +20,24 @@ ui <- bootstrapPage(
             ".csv"
         )
     ),
+    fileInput(
+        'apple', 
+        'Upload AppleCard .csv here',
+        accept=c(
+            "text/csv",
+            "text/comma-separated-values,text/plain",
+            ".csv"
+        )
+    ),
     h3('Press "copy" for formatted output.'),
     h4('Posted Output'),
     DTOutput('posted.table'),
     h4('Pending Output'),
     DTOutput('pending.table'),
     h4('Checking Output'),
-    DTOutput('output.checking')
+    DTOutput('output.checking'),
+    h4('AppleCard Output'),
+    DTOutput('output.apple')
     
 )
 
@@ -78,6 +89,46 @@ server <- function(input, output) {
     output$output.checking <- renderDT(server=FALSE,{
         
         inFile <- input$checking
+        if (is.null(inFile)){
+            return(
+                datatable(
+                    data.frame(
+                        Upload='',
+                        File='',
+                        For='',
+                        Table=''
+                    ),
+                    extensions = 'Buttons', 
+                    options = list(dom = 'tB',
+                                   style='bootstrap',
+                                   buttons = list(
+                                       list(
+                                           extend = 'copy', 
+                                           title = NULL
+                                       ) 
+                                   )),
+                    rownames = F
+                )
+            )
+        } 
+        # Show data
+        datatable(read.csv(inFile$datapath), 
+                  extensions = 'Buttons', 
+                  options = list(dom = 'tB',
+                                 style='bootstrap',
+                                 buttons = list(
+                                     list(
+                                         extend = 'copy', 
+                                         title = NULL
+                                     ) 
+                                 )),
+                  rownames = F)
+    })
+    
+    # Make the AppleCard csv table
+    output$output.apple <- renderDT(server=FALSE,{
+        
+        inFile <- input$apple
         if (is.null(inFile)){
             return(
                 datatable(
