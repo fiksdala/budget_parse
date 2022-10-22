@@ -9,8 +9,8 @@ source('functions.R')
 # The UI
 ui <- bootstrapPage(
     h3('Input data below:'),
-    textAreaInput('posted.input', "Paste Capital One 'Posted' Output Here:"),
-    textAreaInput('pending.input', "Paste Capital One 'Pending' Output Here:"),
+    textAreaInput('posted.input', "Paste Copied Capital One 'Posted' Transactions Here:"),
+    textAreaInput('pending.input', "Paste Copied Capital One 'Pending' Transactions Here:"),
     fileInput(
         'checking', 
         'Upload checking .csv here',
@@ -22,7 +22,7 @@ ui <- bootstrapPage(
     ),
     fileInput(
         'apple', 
-        'Upload AppleCard .csv here',
+        'Upload DCU .csv here',
         accept=c(
             "text/csv",
             "text/comma-separated-values,text/plain",
@@ -36,8 +36,8 @@ ui <- bootstrapPage(
     DTOutput('pending.table'),
     h4('Checking Output'),
     DTOutput('output.checking'),
-    h4('AppleCard Output'),
-    DTOutput('output.apple')
+    h4('DCU Output'),
+    DTOutput('output.dcu')
     
 )
 
@@ -46,11 +46,11 @@ server <- function(input, output) {
     
     # Make the tables
     formatted.table.posted <- reactive({
-        format_capitalone(input$posted.input)
+        format_capitalone_no_print(input$posted.input)
     })
     
     formatted.table.pending <- reactive({
-        format_capitalone(input$pending.input)
+        format_capitalone_no_print(input$pending.input)
     })
     
     output$posted.table <- renderDT(server=FALSE,{
@@ -125,8 +125,8 @@ server <- function(input, output) {
                   rownames = F)
     })
     
-    # Make the AppleCard csv table
-    output$output.apple <- renderDT(server=FALSE,{
+    # Make the DCU csv table
+    output$output.dcu <- renderDT(server=FALSE,{
         
         inFile <- input$apple
         if (is.null(inFile)){
@@ -152,7 +152,17 @@ server <- function(input, output) {
             )
         } 
         # Show data
-        datatable(read.csv(inFile$datapath), 
+        datatable(read.csv(inFile$datapath) %>% 
+                    as_tibble() %>% 
+                    mutate(
+                      DATE = mdy(DATE),
+                      AMOUNT = gsub('\\$', '', AMOUNT) %>% 
+                        gsub(',', '', .) %>% 
+                        as.numeric() 
+                    ) %>% 
+                    select(
+                      Date = DATE, Description = DESCRIPTION, Amount = AMOUNT
+                    ), 
                   extensions = 'Buttons', 
                   options = list(dom = 'tB',
                                  style='bootstrap',

@@ -8,7 +8,9 @@ I built this little application to help with our household budget. We like to ke
 
 # Usage
 
-The application is available [here](https://afiks.shinyapps.io/CapitalOne_Formatting/). Instructions are simple and in the application. Basically you copy transactions from Capital One by choosing "Print", canceling the option, and then copy from the displayed pdf (do not copy headers). Then paste in the box in the application. A preview table will appear below, and below that you can copy the formatted text by pressing the "copy" button. 
+The application is available [here](https://afiks.shinyapps.io/CapitalOne_Formatting/). Instructions are simple and in the application. Basically you copy transactions from Capital One by ~~choosing "Print", canceling the option, and then copy from the displayed pdf (do not copy headers~~\* copying the transcations from the Venture Transaction Summary page (include the DATE, DESCRIPTION, etc. header; do not select more than the last charge; do not include the Total). Then paste in the box in the application. A preview table will appear below, and below that you can copy the formatted text by pressing the "copy" button. 
+
+\* In October 2022, CapitalOne removed the "Print" option.
 
 # Future
 
