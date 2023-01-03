@@ -91,7 +91,7 @@ format_capitalone_no_print <- function(input.string){
          (output$Date %>% max() %>% month()  > 2) ){
         output[
           output$Date %>% month() == 1, 
-        ]$Date <- input.string[
+        ]$Date <- output[
           output$Date %>% month() == 1, 
         ]$Date + years(1)
       }
