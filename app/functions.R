@@ -94,9 +94,11 @@ format_capitalone_no_print <- function(input.string){
         ]$Date <- output[
           output$Date %>% month() > 1,
         ]$Date - years(1)
+        output <- output %>% 
+          arrange(Date, Amount, Description)
       }
     }
   }
-  output
+  output 
 }
 
