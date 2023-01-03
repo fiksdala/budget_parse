@@ -90,12 +90,13 @@ format_capitalone_no_print <- function(input.string){
       if((output$Date %>% min() %>% month()  == 1) &
          (output$Date %>% max() %>% month()  > 2) ){
         output[
-          output$Date %>% month() == 1, 
+          output$Date %>% month() > 1,
         ]$Date <- output[
-          output$Date %>% month() == 1, 
-        ]$Date + years(1)
+          output$Date %>% month() > 1,
+        ]$Date - years(1)
       }
     }
   }
   output
 }
+
