@@ -13,10 +13,11 @@ format_capitalone <- function(text_input){
       Table=''
     )
   } else {
-    text_input %>% 
-      str_split('\n') %>% 
-      unlist() %>% 
-      matrix(ncol=5, byrow=T) %>% 
+    text_input %>%
+      str_split('\n') %>%
+      unlist() %>%
+      .[!str_detect(., regex('^\\d+(\\.\\d+)?x miles$', ignore_case = TRUE))] %>%
+      matrix(ncol=5, byrow=T) %>%
       `colnames<-`(c('Date', 'Description', 'Category', 'Card', 'Amount')) %>% 
       as_tibble() -> input.string
     
