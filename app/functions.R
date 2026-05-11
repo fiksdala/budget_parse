@@ -61,7 +61,8 @@ format_capitalone_no_print <- function(input.string){
       str_split('\n') %>% 
       unlist() 
     transaction_vector <- transaction_vector[transaction_vector != '']
-    
+    transaction_vector <- transaction_vector[!str_detect(transaction_vector, regex('^\\d+(\\.\\d+)?x miles$', ignore_case = TRUE))]
+
     if(toupper(transaction_vector[7]) == 'PENDING'){
       output <- transaction_vector[7:length(transaction_vector)] %>%
         matrix(ncol=5, byrow=T) %>% 
